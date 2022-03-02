@@ -1,0 +1,159 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://Grid/grid.gd" type="Script" id=1]
+[ext_resource path="res://Pieces/Piece Background.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/HUD.gd" type="Script" id=3]
+[ext_resource path="res://UI/Camera.gd" type="Script" id=4]
+[ext_resource path="res://Assets/AreaKilometer50-ow3xB.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://UI/Instructions.gd" type="Script" id=6]
+[ext_resource path="res://Assets/background.jpeg" type="Texture" id=7]
+[ext_resource path="res://Assets/island-beach-3854.ogg" type="AudioStream" id=8]
+[ext_resource path="res://Audio/Music.gd" type="Script" id=9]
+[ext_resource path="res://Audio/Coin_Sound.gd" type="Script" id=10]
+[ext_resource path="res://Assets/Powerup.wav" type="AudioStream" id=11]
+[ext_resource path="res://Break_Sound.gd" type="Script" id=12]
+[ext_resource path="res://Assets/Explosion2.wav" type="AudioStream" id=13]
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 24
+font_data = ExtResource( 5 )
+
+[sub_resource type="Environment" id=4]
+background_mode = 4
+glow_enabled = true
+glow_intensity = 2.4
+
+[node name="Game" type="Node2D"]
+position = Vector2( 1, 0 )
+
+[node name="Background" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -410.0
+margin_right = 1510.0
+margin_bottom = 1200.0
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="grid" type="Node2D" parent="."]
+script = ExtResource( 1 )
+width = 7
+height = 12
+xStart = 80
+yStart = 900
+offset = 70
+background = ExtResource( 2 )
+
+[node name="Congrats" type="Node2D" parent="."]
+
+[node name="HUD" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="HUD"]
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 574.0
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 1 )
+text = "Score: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Time" type="Label" parent="HUD"]
+margin_left = 3.0
+margin_top = 4.0
+margin_right = 571.0
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 1 )
+text = "Time:"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD"]
+autostart = true
+
+[node name="Instructions" type="Control" parent="HUD"]
+pause_mode = 2
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="HUD/Instructions"]
+margin_right = 576.0
+margin_bottom = 1024.0
+color = Color( 0, 0, 0, 0.631373 )
+
+[node name="Label" type="Label" parent="HUD/Instructions"]
+margin_right = 576.0
+margin_bottom = 745.0
+custom_fonts/font = SubResource( 2 )
+text = "Level 1
+
+How many points can you score 
+in 60 seconds?"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Countdown_lbl" type="Label" parent="HUD/Instructions"]
+margin_right = 576.0
+margin_bottom = 1024.0
+custom_fonts/font = SubResource( 3 )
+text = "Starting in"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Countdown" type="Timer" parent="HUD/Instructions"]
+autostart = true
+
+[node name="Camera" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+script = ExtResource( 4 )
+
+[node name="Effects" type="Node2D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 4 )
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+autoplay = true
+script = ExtResource( 9 )
+
+[node name="Coin_Sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+script = ExtResource( 10 )
+
+[node name="Break_Sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+script = ExtResource( 12 )
+
+[connection signal="timeout" from="HUD/Timer" to="HUD" method="_on_Timer_timeout"]
+[connection signal="timeout" from="HUD/Instructions/Countdown" to="HUD/Instructions" method="_on_Countdown_timeout"]
+[connection signal="finished" from="Music" to="Music" method="_on_Music_finished"]

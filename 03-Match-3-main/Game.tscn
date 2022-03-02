@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Grid/grid.gd" type="Script" id=1]
 [ext_resource path="res://Pieces/Piece Background.tscn" type="PackedScene" id=2]
@@ -11,8 +11,6 @@
 [ext_resource path="res://Audio/Music.gd" type="Script" id=9]
 [ext_resource path="res://Audio/Coin_Sound.gd" type="Script" id=10]
 [ext_resource path="res://Assets/Powerup.wav" type="AudioStream" id=11]
-[ext_resource path="res://Break_Sound.gd" type="Script" id=12]
-[ext_resource path="res://Assets/Explosion2.wav" type="AudioStream" id=13]
 
 [sub_resource type="DynamicFont" id=1]
 size = 20
@@ -149,10 +147,6 @@ script = ExtResource( 9 )
 [node name="Coin_Sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 11 )
 script = ExtResource( 10 )
-
-[node name="Break_Sound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 13 )
-script = ExtResource( 12 )
 
 [connection signal="timeout" from="HUD/Timer" to="HUD" method="_on_Timer_timeout"]
 [connection signal="timeout" from="HUD/Instructions/Countdown" to="HUD/Instructions" method="_on_Countdown_timeout"]
